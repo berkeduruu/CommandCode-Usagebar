@@ -1,0 +1,100 @@
+{
+  "name": "commandcode-goat-usagebar",
+  "displayName": "CommandCode GOAT Usagebar",
+  "description": "CommandCode GOAT quota and usage in the VS Code status bar, with a detailed dashboard.",
+  "version": "0.1.7",
+  "publisher": "berkeduruu",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/berkeduruu/commandcode-usagebar"
+  },
+  "homepage": "https://github.com/berkeduruu/commandcode-usagebar",
+  "bugs": {
+    "url": "https://github.com/berkeduruu/commandcode-usagebar/issues"
+  },
+  "keywords": [
+    "commandcode",
+    "goat",
+    "usage",
+    "usagebar",
+    "quota",
+    "credits",
+    "tokens"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "commandCodeUsage.refresh",
+        "title": "CommandCode Usagebar: Refresh"
+      },
+      {
+        "command": "commandCodeUsage.openDashboard",
+        "title": "CommandCode Usagebar: Open Dashboard"
+      },
+      {
+        "command": "commandCodeUsage.setApiKey",
+        "title": "CommandCode Usagebar: Set API Key"
+      },
+      {
+        "command": "commandCodeUsage.setSessionCookie",
+        "title": "CommandCode Usagebar: Set Studio Session Cookie"
+      },
+      {
+        "command": "commandCodeUsage.clearSessionCookie",
+        "title": "CommandCode Usagebar: Clear Studio Session Cookie"
+      },
+      {
+        "command": "commandCodeUsage.clearApiKey",
+        "title": "CommandCode Usagebar: Clear Saved API Key"
+      }
+    ],
+    "configuration": {
+      "title": "CommandCode GOAT Usagebar",
+      "properties": {
+        "commandCodeUsage.refreshIntervalSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 15,
+          "description": "How often to refresh CommandCode usage data (seconds)."
+        },
+        "commandCodeUsage.historyLimit": {
+          "type": "number",
+          "default": 100,
+          "minimum": 10,
+          "maximum": 500,
+          "description": "Maximum number of usage records requested for the dashboard."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "rm -rf .test-dist && tsc --outDir .test-dist --rootDir . --esModuleInterop && node --test .test-dist/test/*.test.js",
+    "package": "node esbuild.js --release && vsce package --no-dependencies",
+    "publish:ovsx": "ovsx publish --no-dependencies",
+    "vscode:prepublish": "node esbuild.js --release"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.9.2",
+    "chart.js": "^4.5.1",
+    "esbuild": "^0.28.2",
+    "ovsx": "^1.1.1",
+    "typescript": "^7.0.2"
+  }
+}
