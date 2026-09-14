@@ -1,0 +1,9 @@
+name: CommandCode GOAT Usagebar
+description: Monitor CommandCode GOAT quota, credits, tokens, and usage history from VS Code.
+topics:
+  - commandcode
+  - vscode-extension
+  - cursor
+  - usage-tracker
+  - quota-monitor
+  - typescript

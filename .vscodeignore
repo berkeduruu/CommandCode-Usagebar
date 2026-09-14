@@ -1,0 +1,11 @@
+node_modules/**
+.test-dist/**
+.git/**
+.github/**
+src/**
+test/**
+docs/**
+esbuild.js
+tsconfig.json
+package-lock.json
+*.log

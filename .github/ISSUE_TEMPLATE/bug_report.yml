@@ -1,0 +1,30 @@
+name: Bug report
+description: Report a reproducible problem with the extension
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Never include API keys, session cookies, or private usage data.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and the expected behavior.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Extension version
+      placeholder: 0.1.7
+  - type: input
+    id: editor
+    attributes:
+      label: Editor and version
+      placeholder: Cursor 1.x or VS Code 1.x
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: List the smallest safe reproduction without secrets.

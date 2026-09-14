@@ -1,149 +1,96 @@
 # CommandCode GOAT Usagebar
 
-![CommandCode GOAT Usagebar icon](https://raw.githubusercontent.com/berkeduruu/commandcode-usagebar/main/images/icon.png)
+![CommandCode GOAT Usagebar](images/icon.png)
 
-Displays CommandCode GOAT usage in the Cursor and VS Code status bars, with a detailed dashboard.
+Monitor CommandCode GOAT quota, model usage, plan spend, and usage history directly in the Cursor or VS Code status bar.
 
-The status bar shows the three limits in this order:
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![VS Code](https://img.shields.io/badge/VS%20Code-1.85%2B-007ACC.svg)](https://code.visualstudio.com/)
 
-`5h 72% ●●●●●●●○○○   7d 45% ●●●●○○○○○○   Mo 25% ●●○○○○○○○○`
+## Why use it?
 
-- `5h`: five-hour limit
-- `7d`: weekly limit
-- `Mo`: total monthly limit
+The status bar gives you an at-a-glance view of the three usage pools:
 
-Click the status bar to open quota cards, model usage, plan spend, charts, and usage history.
+```text
+5h 72% ●●●●●●●○○○   7d 45% ●●●●○○○○○○   Mo 25% ●●○○○○○○○○
+```
 
-## Screenshots
+Click the indicator to open a dashboard with quota cards, model totals, token counts, plan spend, charts, and recent usage history.
 
-### Status bar
+![Status bar](images/status-bar.png)
 
-![CommandCode GOAT status bar](https://raw.githubusercontent.com/berkeduruu/commandcode-usagebar/main/images/status-bar.png)
+## Quick start
 
-### Dashboard overview
-
-![CommandCode GOAT dashboard overview](https://raw.githubusercontent.com/berkeduruu/commandcode-usagebar/main/images/dashboard.png)
-
-### Usage analytics
-
-![CommandCode GOAT usage analytics](https://raw.githubusercontent.com/berkeduruu/commandcode-usagebar/main/images/analytics.png)
-
-### Usage history
-
-![CommandCode GOAT usage history](https://raw.githubusercontent.com/berkeduruu/commandcode-usagebar/main/images/history.png)
-
-## Installation
-
-### Install from a VSIX
+### Install the included VSIX
 
 1. Open Cursor or VS Code.
-2. Press `Ctrl+Shift+P`.
+2. Open the Command Palette with `Ctrl+Shift+P` or `Cmd+Shift+P`.
 3. Run **Extensions: Install from VSIX...**.
-4. Select `commandcode-goat-usagebar-*.vsix` from this project folder.
-5. Select **Reload** when prompted.
+4. Select `commandcode-goat-usagebar-0.1.7.vsix` from this repository.
+5. Reload the editor.
 
-Example release file:
+The extension is currently distributed as a VSIX. The same package can be published to an extension registry later without changing the extension commands or settings.
 
-`commandcode-goat-usagebar-0.1.7.vsix`
+### Authenticate
 
-The extension is currently intended to be installed from a VSIX rather than from a marketplace.
+The extension checks these sources in order:
 
-## First run
+1. `COMMAND_CODE_API_KEY` or `COMMAND_CODE_SESSION_COOKIE` environment variables
+2. Credentials saved through the extension commands in VS Code SecretStorage
+3. `~/.commandcode/auth.json` for API-key discovery
 
-If you are already logged in with `cmd login`, you do not need to log in again. The extension checks these sources automatically:
+If the status bar shows a key icon, run **CommandCode Usagebar: Refresh** or **CommandCode Usagebar: Set API Key** from the Command Palette.
 
-1. `COMMAND_CODE_API_KEY` or `COMMAND_CODE_SESSION_COOKIE`
-2. An API key or Studio session cookie saved in VS Code SecretStorage
-3. `~/.commandcode/auth.json`
+## Features
 
-If the status bar does not show usage:
+- Five-hour, weekly, and monthly quota indicators
+- Per-model request, token, cost, and GOAT plan-spend totals
+- Daily plan-spend and token charts for `1d`, `7d`, `30d`, or custom ranges
+- Recent usage history and UTC timestamps
+- Secure API-key and Studio-session-cookie storage through SecretStorage
+- Local Chart.js bundle for dashboards without a CDN requirement
+- Refresh interval and history-size settings
 
-1. Open the Command Palette with `Ctrl+Shift+P`.
-2. Run **CommandCode Usagebar: Refresh**.
-3. If you see the key icon, run **CommandCode Usagebar: Set API Key**.
+![Dashboard](images/dashboard.png)
 
-To provide an API key through the terminal:
+## Credentials and privacy
 
-```bash
-export COMMAND_CODE_API_KEY="user_..."
-```
+API keys and Studio session cookies are sensitive credentials. Use the editor command to save them; they are stored through VS Code SecretStorage and are not printed by the extension’s logging helpers. Never paste a cookie into an issue, pull request, screenshot, or chat.
 
-Start Cursor from that terminal so the extension can read the environment variable.
+Quota and usage requests are sent to CommandCode endpoints listed in the source adapter. Detailed usage uses internal CommandCode endpoints that may change or require a session cookie. The extension does not add an analytics or telemetry service of its own.
 
-## Charts and usage history
-
-Quota percentages can work with an API key or a Studio session cookie. Model history and charts use CommandCode Studio’s detailed usage endpoints. Some accounts require a browser session cookie for these endpoints.
-
-If the charts are empty:
-
-1. Open CommandCode Studio → **Usage** in a logged-in browser.
-2. Open `F12` → **Network** → select `Fetch/XHR`.
-3. Reload the page.
-4. Select the `usage?limit=10` request.
-5. Copy **Headers → Request Headers → Cookie**.
-6. In Cursor, run **CommandCode Usagebar: Set Studio Session Cookie** and paste the value.
-7. Close and reopen the dashboard, then run **Refresh**.
-
-Never share your cookie. The extension stores it in VS Code SecretStorage and does not write it to logs. If the cookie expires, repeat the same process. You can also provide it through the environment:
-
-```bash
-export COMMAND_CODE_SESSION_COOKIE="..."
-```
-
-Use **CommandCode Usagebar: Clear Studio Session Cookie** to remove the saved cookie, or **CommandCode Usagebar: Clear Saved API Key** to remove the saved API key.
-
-## Dashboard contents
-
-- Five-hour, weekly, and monthly quota cards displayed vertically
-- Per-model request count, token count, actual API cost, and GOAT plan spend
-- Daily plan-spend chart for the selected date range
-- Daily token chart grouped by model
-- Usage history at the bottom
-
-Available date ranges: `1d`, `7d`, `30d`, and `Custom`.
-
-The status-bar hover table shows each recent model, its total tokens, and the UTC timestamp.
+To remove saved credentials, run **CommandCode Usagebar: Clear Studio Session Cookie** or **CommandCode Usagebar: Clear Saved API Key**.
 
 ## Troubleshooting
 
-### The status bar shows a key icon
+### Quotas are visible but charts are empty
 
-The extension did not find a credential. Reload Cursor after `cmd login`, or run **CommandCode Usagebar: Set API Key**.
-
-### Quotas are visible but the charts are empty
-
-The quota endpoint is working, but the detailed Studio endpoint may require a session cookie. Follow the session-cookie steps above.
+Detailed Studio history may require a session cookie. Open CommandCode Studio’s Usage page, copy the request cookie from the browser network panel, then use **CommandCode Usagebar: Set Studio Session Cookie**. Never share that value.
 
 ### The data looks stale
 
-CommandCode’s detailed usage endpoint is internal, so short delays or missing records are possible. Run **Refresh** in the dashboard. Increase `commandCodeUsage.historyLimit` to request more records for larger date ranges.
+Run **CommandCode Usagebar: Refresh**. The detailed endpoint can have short delays or missing records because it is not a documented public API.
 
 ## Development
 
 ```bash
-npm install
+npm ci
 npm test
 npm run typecheck
 npm run build
-```
-
-Create a VSIX:
-
-```bash
 npm run package
 ```
 
-Chart.js is bundled locally, so charts do not require CDN access. Release packages omit source maps and include only the runtime bundle, chart library, manifest, README, and license. Chart.js is distributed under the MIT license.
+The release package contains the bundled runtime and local chart library. Source maps are excluded from release builds.
 
-## Data sources
+## Related projects
 
-- `GET https://api.commandcode.ai/alpha/billing/credits` — live quota data with an API key
-- `GET https://api.commandcode.ai/internal/billing/credits` — Studio quota fallback
-- `GET https://api.commandcode.ai/internal/usage/summary` — period summary
-- `GET https://api.commandcode.ai/internal/usage?limit=...` — model and usage history
+- [Cursor Usagebar](https://github.com/berkeduruu/Cursor-Usagebar) — usagebar for Cursor’s included and other model pools
+- [Video Frame Grabber](https://github.com/berkeduruu/Video-Frame-Grabber) — desktop video frame extraction for computer-vision datasets
+- [YOLO Supported Annotation Tool](https://github.com/berkeduruu/YOLO_Supported_Annotation_Tool) — hybrid auto-labeling and manual annotation
 
-The `internal` endpoints are undocumented and may change. Endpoint and response normalization is isolated in one adapter layer.
+If this extension saves you time, starring the repository helps other developers find it.
 
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).
