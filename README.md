@@ -89,7 +89,7 @@ The release package contains the bundled runtime and local chart library. Source
 
 - [Cursor Usagebar](https://github.com/berkeduruu/Cursor-Usagebar) — usagebar for Cursor’s included and other model pools
 - [Video Frame Grabber](https://github.com/berkeduruu/Video-Frame-Grabber) — desktop video frame extraction for computer-vision datasets
-- [YOLO Supported Annotation Tool](https://github.com/berkeduruu/YOLO_Supported_Annotation_Tool) — hybrid auto-labeling and manual annotation
+- [YOLO Annotation Tool](https://github.com/berkeduruu/yolo-annotation-tool) — hybrid auto-labeling and manual annotation
 
 If this extension saves you time, starring the repository helps other developers find it.
 
