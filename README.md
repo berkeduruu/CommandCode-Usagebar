@@ -55,7 +55,7 @@ If the status bar shows a key icon, run **CommandCode Usagebar: Refresh** or **C
 
 ## Credentials and privacy
 
-API keys and Studio session cookies are sensitive credentials. Use the editor command to save them; they are stored through VS Code SecretStorage and are not printed by the extension’s logging helpers. Never paste a cookie into an issue, pull request, screenshot, or chat.
+API keys and Studio session cookies are sensitive credentials. Values entered through the editor commands are stored in VS Code SecretStorage. Environment variables and local CommandCode authentication files can also supply credentials. The logging helper does not redact arbitrary messages, so review diagnostic output before sharing it. Never paste a cookie into an issue, pull request, screenshot, or chat.
 
 Quota and usage requests are sent to CommandCode endpoints listed in the source adapter. Detailed usage uses internal CommandCode endpoints that may change or require a session cookie. The extension does not add an analytics or telemetry service of its own.
 
@@ -72,6 +72,8 @@ Detailed Studio history may require a session cookie. Open CommandCode Studio’
 Run **CommandCode Usagebar: Refresh**. The detailed endpoint can have short delays or missing records because it is not a documented public API.
 
 ## Development
+
+Use Node.js 22 or newer for the build and packaging tools.
 
 ```bash
 npm ci
